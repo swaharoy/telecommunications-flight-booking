@@ -1,0 +1,45 @@
+{
+ "note": "Houston-Dubai with a connection: one flight of 8 hours or more, so business is granted.",
+ "kind": "gold",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "IAH",
+  "destination": "DXB",
+  "travel_date": "2026-12-03",
+  "preferred_departure": "08:00",
+  "stop_preference": "CONNECTING",
+  "wants_business": true,
+  "manager_approved_business": true
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261203-09",
+    "business_granted": true
+   }
+  }
+ ],
+ "expect": {
+  "valid": true,
+  "score": 1.0,
+  "failed": []
+ }
+}

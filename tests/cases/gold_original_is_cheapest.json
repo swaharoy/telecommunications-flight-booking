@@ -1,0 +1,45 @@
+{
+ "note": "New York-Los Angeles: the original nonstop is the lowest logical coach fare.",
+ "kind": "gold",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "JFK",
+  "destination": "LAX",
+  "travel_date": "2026-12-03",
+  "preferred_departure": "07:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": false,
+  "manager_approved_business": false
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261203-03",
+    "business_granted": false
+   }
+  }
+ ],
+ "expect": {
+  "valid": true,
+  "score": 1.0,
+  "failed": []
+ }
+}

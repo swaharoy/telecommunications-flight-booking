@@ -1,0 +1,45 @@
+{
+ "note": "New York-Hong Kong: a nonstop asked for, a one-stop flight is cheapest.",
+ "kind": "gold",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "JFK",
+  "destination": "HKG",
+  "travel_date": "2026-12-05",
+  "preferred_departure": "17:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": false,
+  "manager_approved_business": false
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261205-18",
+    "business_granted": false
+   }
+  }
+ ],
+ "expect": {
+  "valid": true,
+  "score": 1.0,
+  "failed": []
+ }
+}

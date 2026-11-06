@@ -1,0 +1,181 @@
+{
+ "note": "The refundable coach fare on the same flight costs more.",
+ "kind": "boundary",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "DFW",
+  "destination": "NRT",
+  "travel_date": "2026-12-03",
+  "preferred_departure": "11:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": false,
+  "manager_approved_business": false
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261203-02",
+    "business_granted": false
+   }
+  }
+ ],
+ "world": {
+  "route": [
+   "DFW",
+   "NRT"
+  ],
+  "days": {
+   "2026-12-03": {
+    "itineraries": [
+     {
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "depart_local": "11:00",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "itinerary_id": "20261203-I02",
+      "carrier": "American Airlines",
+      "stops": 0,
+      "depart": "2026-12-03 20:00",
+      "arrive": "2026-12-04 07:40",
+      "depart_local": "14:00",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 200",
+        "depart": "2026-12-03 20:00",
+        "arrive": "2026-12-04 07:40",
+        "air_minutes": 700
+       }
+      ]
+     }
+    ],
+    "offers": [
+     {
+      "offer_id": "20261203-01",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": false,
+      "fare_cents": 90000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-02",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": true,
+      "fare_cents": 160000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-03",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "FIRST",
+      "refundable": false,
+      "fare_cents": 50000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-04",
+      "itinerary_id": "20261203-I02",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": false,
+      "fare_cents": 40000,
+      "stops": 0,
+      "depart": "2026-12-03 20:00",
+      "arrive": "2026-12-04 07:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 200",
+        "depart": "2026-12-03 20:00",
+        "arrive": "2026-12-04 07:40",
+        "air_minutes": 700
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "expect": {
+  "valid": false,
+  "score": 0.0,
+  "failed": [
+   "lowest-coach"
+  ]
+ }
+}

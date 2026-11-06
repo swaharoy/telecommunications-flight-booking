@@ -1,0 +1,57 @@
+_ > nanoagent.plugin.v0001.ManifestConfig:
+id: telecommunications-flight-booking
+name: Telecommunications Flight Booking
+version: 0.1.0
+status: ready
+spec: nanoagent.plugin/v0001
+
+runtime > nanoagent.plugin.v0001.RuntimeConfig:
+  type: mcp_stdio
+  command: [uv, run, --frozen, python, -m, plugin]
+
+permissions > nanoagent.plugin.v0001.PermissionsConfig:
+  network > nanoagent.plugin.v0001.NetworkConfig:
+    hosts: []
+  filesystem > nanoagent.plugin.v0001.FilesystemConfig:
+    write: [workspace]
+
+# One entry per contract.Tool; its input and output classes are contract.TOOLS's.
+tools > dict[contract.Tool, nanoagent.plugin.v0001.ToolConfig]:
+  booking_requirements:
+    description: What a booking request must give (traveller, airports, travel date, preferred departure time, nonstop or connecting, business wish and manager approval), with examples, the date and time rules and the airports to choose from
+  get_trip:
+    description: Begin a booking run for a trip request, booked as of today, and show the trip with its original flight (the stated kind of flight leaving closest to the preferred time)
+  search_flights:
+    description: List the one-way offers on a route on a day, each itinerary in every fare it is sold at, with airline, flight numbers, times, stops, minutes in the air, cabin, refundability and fare (simulated fares and schedules)
+  solve_booking:
+    description: The answer key, never given to the agent - the booking the policy requires for a trip request, as of today
+
+# One entry per contract.Task; its input and output classes are contract.TASKS's.
+tasks > dict[contract.Task, nanoagent.plugin.v0001.TaskConfig]:
+  booking-requirements:
+    description: Show what to tell us to book a flight, and the airports to choose from
+    runner: tool
+    tools: [booking_requirements]
+    reference: null
+    instructions: Call booking_requirements with topic ALL (FIELDS for only what to tell us, AIRPORTS for only the airport list) and show what it returns.
+  search-flights:
+    description: Show the flight offers on a route and day
+    runner: tool
+    tools: [search_flights]
+    reference: null
+    instructions: Call search_flights with an empty run_id, the route's airport codes and the travel date (today or later), and show the offers it returns.
+  telecommunications-flight-booking:
+    description: Book a one-way flight for a vendor's trip request under the telecommunications company's vendor air-travel policy
+    runner: agent
+    tools: [get_trip, search_flights]
+    reference: solve_booking
+    instructions: |-
+      Book one one-way flight for a vendor travelling for a telecommunications company, under its vendor air-travel policy (based on the AT&T Vendor Expense Policy, section 3.4). Money is in US cents, times are UTC "YYYY-MM-DD HH:MM". Fares and schedules are simulated.
+      Plan: exactly three tool calls. (1) get_trip with the task input exactly as given; it returns the trip and its original flight (trip.original). (2) search_flights with the run_id get_trip returned, the trip's origin and destination codes, and its travel_date, as given. (3) submit.
+      Each offer sells one itinerary (itinerary_id) in one cabin and fare; one itinerary is sold in several offers. An offer's depart, arrive and stops are its itinerary's.
+      Rules, in order:
+      T4. Never an offer whose cabin is FIRST.
+      T1. An itinerary is logical when its depart is within 120 minutes of the original's depart, its arrive within 120 minutes of the original's arrive (exactly 120 is fine, either side), and its stops at most the original's stops plus 1. Only logical itineraries may be booked. The original is always logical.
+      T2. Among the ECONOMY offers of logical itineraries, find the lowest fare_cents, refundable or not. Book an itinerary that has an ECONOMY offer at that lowest fare (any of them when tied).
+      T3. On that same itinerary, business is granted only if wants_business is true, manager_approved_business is true, one of the itinerary's segments has air_minutes of 480 or more (one flight of 8 hours; segments are never added up), and the itinerary has a BUSINESS offer. If granted, book that itinerary's BUSINESS offer (its lowest business fare) and submit business_granted true. Otherwise book its ECONOMY offer at the lowest fare and submit business_granted false. Never move to another itinerary to get business.
+      Submit: run_id as get_trip returned it; offer_id; business_granted. Reason briefly; do not call any tool after submit.

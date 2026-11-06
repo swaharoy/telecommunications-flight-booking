@@ -1,0 +1,33 @@
+{
+ "note": "A request to travel before today is refused.",
+ "kind": "malformed",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "DFW",
+  "destination": "NRT",
+  "travel_date": "2026-11-01",
+  "preferred_departure": "11:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": false,
+  "manager_approved_business": false
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261101-01",
+    "business_granted": false
+   }
+  }
+ ],
+ "expect": {
+  "error_contains": "before today"
+ }
+}

@@ -1,0 +1,205 @@
+{
+ "note": "Moving to the dearer flight to get business.",
+ "kind": "boundary",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "DFW",
+  "destination": "NRT",
+  "travel_date": "2026-12-03",
+  "preferred_departure": "11:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": true,
+  "manager_approved_business": true
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261203-02",
+    "business_granted": true
+   }
+  }
+ ],
+ "world": {
+  "route": [
+   "DFW",
+   "NRT"
+  ],
+  "days": {
+   "2026-12-03": {
+    "itineraries": [
+     {
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "depart_local": "11:00",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "itinerary_id": "20261203-I02",
+      "carrier": "American Airlines",
+      "stops": 1,
+      "depart": "2026-12-03 17:30",
+      "arrive": "2026-12-04 05:20",
+      "depart_local": "11:30",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "LAX",
+        "flight_number": "AA 200",
+        "depart": "2026-12-03 17:30",
+        "arrive": "2026-12-03 22:50",
+        "air_minutes": 320
+       },
+       {
+        "origin": "LAX",
+        "destination": "NRT",
+        "flight_number": "AA 201",
+        "depart": "2026-12-04 00:20",
+        "arrive": "2026-12-04 05:20",
+        "air_minutes": 300
+       }
+      ]
+     }
+    ],
+    "offers": [
+     {
+      "offer_id": "20261203-01",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": false,
+      "fare_cents": 90000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-02",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "BUSINESS",
+      "refundable": false,
+      "fare_cents": 400000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 04:40",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 04:40",
+        "air_minutes": 700
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-03",
+      "itinerary_id": "20261203-I02",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": false,
+      "fare_cents": 70000,
+      "stops": 1,
+      "depart": "2026-12-03 17:30",
+      "arrive": "2026-12-04 05:20",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "LAX",
+        "flight_number": "AA 200",
+        "depart": "2026-12-03 17:30",
+        "arrive": "2026-12-03 22:50",
+        "air_minutes": 320
+       },
+       {
+        "origin": "LAX",
+        "destination": "NRT",
+        "flight_number": "AA 201",
+        "depart": "2026-12-04 00:20",
+        "arrive": "2026-12-04 05:20",
+        "air_minutes": 300
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-04",
+      "itinerary_id": "20261203-I02",
+      "carrier": "American Airlines",
+      "cabin": "BUSINESS",
+      "refundable": false,
+      "fare_cents": 300000,
+      "stops": 1,
+      "depart": "2026-12-03 17:30",
+      "arrive": "2026-12-04 05:20",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "LAX",
+        "flight_number": "AA 200",
+        "depart": "2026-12-03 17:30",
+        "arrive": "2026-12-03 22:50",
+        "air_minutes": 320
+       },
+       {
+        "origin": "LAX",
+        "destination": "NRT",
+        "flight_number": "AA 201",
+        "depart": "2026-12-04 00:20",
+        "arrive": "2026-12-04 05:20",
+        "air_minutes": 300
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "expect": {
+  "valid": false,
+  "score": 0.0,
+  "failed": [
+   "lowest-coach"
+  ]
+ }
+}

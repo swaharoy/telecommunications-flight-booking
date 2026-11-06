@@ -1,0 +1,119 @@
+{
+ "note": "Business pre-approved; flights of 479 minutes in the air. Coach.",
+ "kind": "boundary",
+ "task": "telecommunications-flight-booking",
+ "today": "2026-11-05",
+ "request": {
+  "traveller_name": "Jordan Lee",
+  "origin": "DFW",
+  "destination": "NRT",
+  "travel_date": "2026-12-03",
+  "preferred_departure": "11:00",
+  "stop_preference": "NONSTOP",
+  "wants_business": true,
+  "manager_approved_business": true
+ },
+ "steps": [
+  {
+   "tool": "get_trip",
+   "arguments": "$request",
+   "save_as": "trip"
+  },
+  {
+   "tool": "search_flights",
+   "save_as": "search",
+   "arguments": {
+    "run_id": "$ref:trip.run_id",
+    "origin": "$ref:trip.trip.origin.code",
+    "destination": "$ref:trip.trip.destination.code",
+    "travel_date": "$ref:trip.trip.travel_date"
+   }
+  },
+  {
+   "submit": {
+    "run_id": "$ref:trip.run_id",
+    "offer_id": "20261203-01",
+    "business_granted": false
+   }
+  }
+ ],
+ "world": {
+  "route": [
+   "DFW",
+   "NRT"
+  ],
+  "days": {
+   "2026-12-03": {
+    "itineraries": [
+     {
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 00:59",
+      "depart_local": "11:00",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 00:59",
+        "air_minutes": 479
+       }
+      ]
+     }
+    ],
+    "offers": [
+     {
+      "offer_id": "20261203-01",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "ECONOMY",
+      "refundable": false,
+      "fare_cents": 90000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 00:59",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 00:59",
+        "air_minutes": 479
+       }
+      ]
+     },
+     {
+      "offer_id": "20261203-02",
+      "itinerary_id": "20261203-I01",
+      "carrier": "American Airlines",
+      "cabin": "BUSINESS",
+      "refundable": false,
+      "fare_cents": 400000,
+      "stops": 0,
+      "depart": "2026-12-03 17:00",
+      "arrive": "2026-12-04 00:59",
+      "segments": [
+       {
+        "origin": "DFW",
+        "destination": "NRT",
+        "flight_number": "AA 100",
+        "depart": "2026-12-03 17:00",
+        "arrive": "2026-12-04 00:59",
+        "air_minutes": 479
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "expect": {
+  "valid": true,
+  "score": 1.0,
+  "failed": []
+ }
+}
