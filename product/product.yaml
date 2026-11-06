@@ -1,5 +1,5 @@
 _ > nanoagent.plugin.v0001.ProductConfig:
-tagline: "Book the lowest logical coach fare the way a vendor travel policy says to"
+tagline: "Book the lowest logical coach fare under the AT&T Vendor Expense Policy"
 summary: "Describe a trip in plain words, including the flight you would normally take, and an agent books a one-way flight for a vendor of a telecommunications company, as of today, under an air-travel policy based on the AT&T Vendor Expense Policy: the lowest logical coach fare within two hours of your original flight and with at most one extra stop, refundable or not, never first class, and business only on an 8-hour flight with your manager's approval. Real airports and airline names; simulated fares and schedules. A deterministic verifier checks every booking against the policy's rules."
 highlights:
   - "Say when you would like to leave and whether you want a nonstop: the plugin finds your original flight and the cheaper logical alternatives"
